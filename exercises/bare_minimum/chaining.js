@@ -105,7 +105,16 @@ var getGitHubProfileAsync = require('./promisification').getGitHubProfileAsync
 
 
 var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
-  // TODO
+
+  return pluckFirstLineFromFileAsync(readFilePath)
+  .then(function (userName) {
+    getGitHubProfileAsync(userName)
+    .then(function (body) {
+      fs.writeFile(writeFilePath, JSON.stringify(body), function (err, data) {})
+    })
+  });
+
+
 };
 
 module.exports = {
